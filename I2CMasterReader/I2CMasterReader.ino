@@ -6,12 +6,17 @@ void setup() {
 }
 
 void loop() {
-  Wire.requestFrom(16, 6);    // request 6 bytes from slave device #8
+  byte bytesReceived = Wire.requestFrom(16, 6);    // request 6 bytes from slave device #16
 
-  while (Wire.available()) { // slave may send less than requested
-    char c = Wire.read();
-    Serial.write(c);         // print the character
+  if (bytesReceived > 0) {
+    while (Wire.available()) { // slave may send less than requested
+      char c = Wire.read();
+      Serial.write(c);         // print the character
+    }
+    Serial.println();
+  } else {
+    Serial.println("No response from slave");
   }
-  Serial.println();
+  
   delay(500);
 }
